@@ -1,1 +1,15 @@
 # industrial-development-tools
+***
+## How to build
+Open Terminal/CMD and run next command:
+```bash
+$ gradlew build
+```
+You see file `Lab-${version}.jar` in `build/` dir
+
+## How to run
+ * Create BD with name `testdb` and set port `:5432` on locahost
+ * Open dir `build/libs/` in Terminal/CMD and run command
+```bash
+$ java -jar Lab-1.0-SNAPSHOT.jar
+```

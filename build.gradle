@@ -1,5 +1,5 @@
 group 'vi.al.ro'
-version '1.0-SNAPSHOT'
+version '0.1.1-SNAPSHOT'
 
 buildscript {
     ext {
@@ -24,12 +24,24 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    baseName = 'Lab'
+    version = project.properties.version
+}
+
+// DB Postgres
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
-    compile("com.h2database:h2")
+}
 
+// Spring dependency
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+}
+
+// For test
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
