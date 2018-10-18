@@ -17,6 +17,10 @@ public class User {
     @Column(name = "USER_FULL_NAME", nullable = false, length = 64)
     private String fullname;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ORDER_ID", nullable = false)
+    private Order order;
+
     public Integer getId() {
         return id;
     }
@@ -31,6 +35,14 @@ public class User {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override

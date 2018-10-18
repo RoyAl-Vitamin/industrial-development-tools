@@ -17,6 +17,10 @@ public class Product {
     @Column(name = "PRODUCT_NAME", nullable = false, length = 50)
     private String name;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GROUP_PRODUCT_ID", nullable = false)
+    private GroupProduct group;
+
     public Integer getId() {
         return id;
     }
@@ -33,8 +37,19 @@ public class Product {
         this.name = name;
     }
 
+    public GroupProduct getGroup() {
+        return group;
+    }
+
+    public void setGroup(GroupProduct group) {
+        this.group = group;
+    }
+
     @Override
     public String toString() {
-        return "id = " + id + " name = " + name;
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

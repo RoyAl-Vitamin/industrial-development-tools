@@ -4,7 +4,4 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import vi.al.ro.entity.GroupProduct;
 
 public interface GroupProductRepository extends PagingAndSortingRepository<GroupProduct, Integer> {
-
-//    @Query("SELECT * FROM GroupProduct")
-//    List<GroupProduct> findAll();
 }

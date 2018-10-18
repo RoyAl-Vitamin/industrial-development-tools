@@ -15,8 +15,9 @@ $ java -jar Lab-1.0-SNAPSHOT.jar
 ```
 
 ## What methods is implemented?
-RESTful arhitecture!
+RESTful architecture!
 
- - Saved User entity (GET, POST, DELETE)
+ - Create/Read/Update/Replace/Delete User entity (GET, POST, DELETE)
+ - Create/Read/Update/Replace/Delete UserGroup entity (GET, POST, DELETE)
 
 See for more [information](https://www.restapitutorial.com/lessons/httpmethods.html)

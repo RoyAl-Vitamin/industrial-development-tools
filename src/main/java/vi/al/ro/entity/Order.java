@@ -15,14 +15,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="ORDER_PHONE", length = 20)
-    private String phone;
-
-    @Column(name="ORDER_REMARK", length = 1000)
-    private String remark;
-
     @OneToMany(mappedBy = "order") // имя поля!
     private Set<OrderPos> orderPoses;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "order")
+    private User user;
 
     public Integer getId() {
         return id;
@@ -32,27 +29,19 @@ public class Order {
         this.id = id;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
     public Set<OrderPos> getOrderPoses() {
         return orderPoses;
     }
 
     public void setOrderPoses(Set<OrderPos> orderPoses) {
         this.orderPoses = orderPoses;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

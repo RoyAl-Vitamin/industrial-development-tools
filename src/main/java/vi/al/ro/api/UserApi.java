@@ -99,7 +99,7 @@ public class UserApi {
     /**
      * Проверяет существование пользователя
      * @param id пользователя
-     * @return ОК
+     * @return код 409 если пользователь существует, иначе код 404
      */
     @RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.POST)
     public ResponseEntity<?> postUserSpecificItem(@PathVariable int id) {
@@ -186,7 +186,7 @@ public class UserApi {
 //*********************************************************************************************************************/
 
     /**
-     * удаляет коллекцию User
+     * Удаляет коллекцию User
      * @param responseUsers коллекция на удаление
      * @return 405 (Method Not Allowed), unless you want to delete the whole collection—not often desirable
      */
@@ -222,5 +222,4 @@ public class UserApi {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
