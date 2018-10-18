@@ -13,3 +13,10 @@ You see file `Lab-${version}.jar` in `build/` dir
 ```bash
 $ java -jar Lab-1.0-SNAPSHOT.jar
 ```
+
+## What methods is implemented?
+RESTful arhitecture!
+
+ - Saved User entity (GET, POST, DELETE)
+
+See for more [information](https://www.restapitutorial.com/lessons/httpmethods.html)

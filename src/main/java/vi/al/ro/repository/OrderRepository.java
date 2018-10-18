@@ -1,7 +1,7 @@
-package test.repository;
+package vi.al.ro.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
-import test.entity.Order;
+import vi.al.ro.entity.Order;
 
 public interface OrderRepository extends PagingAndSortingRepository<Order, Integer> {
 }

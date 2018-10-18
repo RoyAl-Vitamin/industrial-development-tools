@@ -1,8 +1,11 @@
-package test.entity;
+package vi.al.ro.entity;
 
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Заказ
+ */
 @Entity
 @Table(name="ORDER", schema="public")
 public class Order {

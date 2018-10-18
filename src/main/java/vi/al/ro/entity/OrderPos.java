@@ -1,7 +1,10 @@
-package test.entity;
+package vi.al.ro.entity;
 
 import javax.persistence.*;
 
+/**
+ * Позиция заказа
+ */
 @Entity
 @Table(name="OREDERPOS", schema = "public")
 public class OrderPos {

@@ -1,17 +1,20 @@
-package test.entity;
+package vi.al.ro.entity;
 
 import javax.persistence.*;
 
+/**
+ * Товар
+ */
 @Entity
-@Table(name="TEST_ENTITY", schema="public")
-public class TestEntity {
+@Table(name="PRODUCT", schema="public")
+public class Product {
 
     @Id
-    @Column(name = "TEST_ID", nullable = false)
+    @Column(name = "PRODUCT_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "TEST_NAME", nullable = false, length = 50)
+    @Column(name = "PRODUCT_NAME", nullable = false, length = 50)
     private String name;
 
     public Integer getId() {
