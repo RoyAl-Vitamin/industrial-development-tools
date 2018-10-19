@@ -18,6 +18,7 @@ $ java -jar Lab-1.0-SNAPSHOT.jar
 RESTful architecture!
 
  - Create/Read/Update/Replace/Delete User entity (GET, POST, DELETE)
- - Create/Read/Update/Replace/Delete UserGroup entity (GET, POST, DELETE)
+ - Create/Read/Update/Replace/Delete GroupProduct entity (GET, POST, DELETE)
+ - Create/Read/Update/Replace/Delete Product entity (GET, POST, DELETE)
 
 See for more [information](https://www.restapitutorial.com/lessons/httpmethods.html)
