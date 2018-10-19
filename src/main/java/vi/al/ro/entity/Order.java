@@ -49,4 +49,12 @@ public class Order {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public PointOfDelivery getPoint() {
+        return point;
+    }
+
+    public void setPoint(PointOfDelivery point) {
+        this.point = point;
+    }
 }

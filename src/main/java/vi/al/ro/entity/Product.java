@@ -21,6 +21,10 @@ public class Product {
     @JoinColumn(name = "GROUP_PRODUCT_ID", nullable = false)
     private GroupProduct group;
 
+    @ManyToOne(targetEntity = OrderPos.class)
+    @JoinColumn(name="ORDER_POSITION_ID", nullable = false)
+    private OrderPos position;
+
     public Integer getId() {
         return id;
     }
@@ -43,6 +47,14 @@ public class Product {
 
     public void setGroup(GroupProduct group) {
         this.group = group;
+    }
+
+    public OrderPos getPosition() {
+        return position;
+    }
+
+    public void setPosition(OrderPos position) {
+        this.position = position;
     }
 
     @Override
