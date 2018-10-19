@@ -18,8 +18,13 @@ public class Order {
     @OneToMany(mappedBy = "order") // имя поля!
     private Set<OrderPos> orderPoses;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "order")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POINT_OF_DELIVERY_ID", nullable = false)
+    private PointOfDelivery point;
 
     public Integer getId() {
         return id;

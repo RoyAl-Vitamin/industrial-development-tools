@@ -1,6 +1,8 @@
 package vi.al.ro.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Пользователь
@@ -17,9 +19,10 @@ public class User {
     @Column(name = "USER_FULL_NAME", nullable = false, length = 64)
     private String fullname;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ORDER_ID", nullable = false)
-    private Order order;
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "user")
+    private Set<Order> order = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -37,11 +40,11 @@ public class User {
         this.fullname = fullname;
     }
 
-    public Order getOrder() {
+    public Set<Order> getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(Set<Order> order) {
         this.order = order;
     }
 

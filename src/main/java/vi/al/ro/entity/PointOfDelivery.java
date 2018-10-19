@@ -1,6 +1,8 @@
 package vi.al.ro.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Пункт выдачи
@@ -17,6 +19,11 @@ public class PointOfDelivery {
     @Column(name = "POINT_OF_DELIVERY_ADDRESS", nullable = false)
     private String address;
 
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "point")
+    private Set<Order> order = new HashSet<>();
+
     public Integer getId() {
         return id;
     }
@@ -31,5 +38,13 @@ public class PointOfDelivery {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Set<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(Set<Order> order) {
+        this.order = order;
     }
 }
