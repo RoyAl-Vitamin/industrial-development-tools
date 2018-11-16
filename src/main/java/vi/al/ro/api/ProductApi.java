@@ -45,7 +45,12 @@ public class ProductApi {
         } catch (NullPointerException npe) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(prods, HttpStatus.OK);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(headers)
+                .body(prods);
     }
 
     /**
