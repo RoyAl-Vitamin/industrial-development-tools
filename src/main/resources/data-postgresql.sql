@@ -61,3 +61,14 @@ INSERT INTO public.product(product_id, product_name, group_product_id, order_pos
 INSERT INTO public.product(product_id, product_name, group_product_id, order_position_id) VALUES (8, 'PUMA', 4, null);
 
 INSERT INTO public.product(product_id, product_name, group_product_id, order_position_id) VALUES (9, 'NIKE', 4, null);
+
+
+INSERT INTO public.point_of_delivery(point_of_delivery_id, point_of_delivery_address) VALUES (0, 'Lebedeva');
+
+INSERT INTO public.point_of_delivery(point_of_delivery_id, point_of_delivery_address) VALUES (1, 'Chernyshevskogo');
+
+INSERT INTO public.point_of_delivery(point_of_delivery_id, point_of_delivery_address) VALUES (2, 'Uralskaya');
+
+INSERT INTO public.point_of_delivery(point_of_delivery_id, point_of_delivery_address) VALUES (3, 'Sibirskaya');
+
+INSERT INTO public.point_of_delivery(point_of_delivery_id, point_of_delivery_address) VALUES (4, 'GeroevHasana');

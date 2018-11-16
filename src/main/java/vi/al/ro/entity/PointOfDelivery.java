@@ -13,7 +13,8 @@ public class PointOfDelivery {
 
     @Id
     @Column(name = "POINT_OF_DELIVERY_ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @TableGenerator(name = "point_of_delivery_generator", table = "table_point_of_delivery_generator", initialValue = 4, allocationSize = 200)
+    @GeneratedValue(generator = "point_of_delivery_generator")
     private Integer id;
 
     @Column(name = "POINT_OF_DELIVERY_ADDRESS", nullable = false)
