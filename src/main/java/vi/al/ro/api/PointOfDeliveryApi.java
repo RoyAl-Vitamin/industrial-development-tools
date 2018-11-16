@@ -6,23 +6,24 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vi.al.ro.entity.Product;
-import vi.al.ro.repository.ProductRepository;
+import vi.al.ro.entity.PointOfDelivery;
+import vi.al.ro.repository.PointOfDeliveryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+
 @RestController
-@RequestMapping("product")
-public class ProductApi {
+@RequestMapping("pointOfDelivery")
+public class PointOfDeliveryApi {
 
-    private Logger logger = LoggerFactory.getLogger(ProductApi.class);
+    private Logger logger = LoggerFactory.getLogger(PointOfDeliveryApi.class);
 
-    private final ProductRepository prodRepo;
+    private final PointOfDeliveryRepository pointRepo;
 
-    public ProductApi(ProductRepository prodRepo) {
-        this.prodRepo = prodRepo;
+    public PointOfDeliveryApi(PointOfDeliveryRepository pointRepo) {
+        this.pointRepo= pointRepo;
     }
 
 //*********************************************************************************************************************/
@@ -32,16 +33,16 @@ public class ProductApi {
 //*********************************************************************************************************************/
 
     /**
-     * Возвращает все продукты
-     * @return {@link vi.al.ro.entity.Product}'s
+     * Возвращает все точки доставки
+     * @return {@link vi.al.ro.entity.PointOfDelivery}'s
      */
     @RequestMapping(value = "/", produces = "application/json", method = RequestMethod.GET)
-    public ResponseEntity<?> getProdEntireCollection() {
-        logger.info("#getProdEntireCollection: get all");
+    public ResponseEntity<?> getPointEntireCollection() {
+        logger.info("#getPointEntireCollection: get all");
 
-        List<Product> prods = new ArrayList<>();
+        List<PointOfDelivery> points = new ArrayList<>();
         try {
-            prodRepo.findAll().forEach(prods::add);
+            pointRepo.findAll().forEach(points::add);
         } catch (NullPointerException npe) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -50,25 +51,25 @@ public class ProductApi {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .headers(headers)
-                .body(prods);
+                .body(points);
     }
 
     /**
-     * Возвращает продукт по id
-     * @param id группы
-     * @return {@link Product}
+     * Возвращает точку выдачи по id
+     * @param id точки
+     * @return {@link PointOfDelivery}
      */
     @RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.GET)
-    public ResponseEntity<?> getProdSpecificItem(@PathVariable int id) {
-        logger.info("#getProdSpecificItem: get Group with id == " + id);
+    public ResponseEntity<?> getPointSpecificItem(@PathVariable int id) {
+        logger.info("#getPointSpecificItem: get Group with id == " + id);
 
-        Product prod;
+        PointOfDelivery point;
         try {
-            prod = prodRepo.findById(id).orElseThrow(NoSuchElementException::new);
+            point = pointRepo.findById(id).orElseThrow(NoSuchElementException::new);
         } catch (NoSuchElementException nsee) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(prod, HttpStatus.OK);
+        return new ResponseEntity<>(point, HttpStatus.OK);
     }
 
 //*********************************************************************************************************************/
@@ -78,20 +79,20 @@ public class ProductApi {
 //*********************************************************************************************************************/
 
     /**
-     * Вставляет в БД группу, его переданный ID не важен, т.к. генериться базой или Hibernate
-     * @param responseProd переданная для сохранения группа
+     * Вставляет в БД точку выдачи, его переданный ID не важен, т.к. генериться базой или Hibernate
+     * @param responsePoint переданная для сохранения группа
      * @return если всё прошло удачно, то в хедере можно будет найти ссылку на сохранённый объект, иначе ошибка 500
      */
     @RequestMapping(value = "/", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<?> postProdEntireCollection(@RequestBody Product responseProd) {
-        logger.info("#postProdEntireCollection: " + responseProd.toString());
+    public ResponseEntity<?> postPointEntireCollection(@RequestBody PointOfDelivery responsePoint) {
+        logger.info("#postPointEntireCollection: " + responsePoint.toString());
 
-        Product savedProd = prodRepo.save(responseProd);
+        PointOfDelivery savedPoint = pointRepo.save(responsePoint);
 
-        if (savedProd != null) {
+        if (savedPoint != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
-            headers.add(HttpHeaders.LOCATION, "/product/" + savedProd.getId());
+            headers.add(HttpHeaders.LOCATION, "/group/" + savedPoint.getId());
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .headers(headers)
@@ -102,15 +103,15 @@ public class ProductApi {
     }
 
     /**
-     * Проверяет существование продукта
-     * @param id продукта
+     * Проверяет существование точки
+     * @param id точки
      * @return код 409 если группа существует, иначе код 404
      */
     @RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<?> postProdSpecificItem(@PathVariable int id) {
-        logger.info("#postProdSpecificItem: " + id);
+    public ResponseEntity<?> postPointSpecificItem(@PathVariable int id) {
+        logger.info("#postPointSpecificItem: " + id);
 
-        boolean exists = prodRepo.existsById(id);
+        boolean exists = pointRepo.existsById(id);
 
         if (exists) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -132,39 +133,39 @@ public class ProductApi {
 //*********************************************************************************************************************/
 
     /**
-     * Удаляет коллекцию Product
-     * @param responseProds коллекция на удаление
+     * Удаляет коллекцию GroupProduct
+     * @param responsePoints коллекция на удаление
      * @return 405 (Method Not Allowed), unless you want to delete the whole collection—not often desirable
      */
     @RequestMapping(value = "/", produces = "application/json", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteProdEntireCollection(@RequestBody List<Product> responseProds) {
-        logger.info("#deleteProdEntireCollection: prods count == " + responseProds.size());
+    public ResponseEntity<?> deletePointEntireCollection(@RequestBody List<PointOfDelivery> responsePoints) {
+        logger.info("#deletePointEntireCollection: Points count == " + responsePoints.size());
 
-        if (responseProds.size() == 0) {
+        if (responsePoints.size() == 0) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        prodRepo.deleteAll(responseProds);
+        pointRepo.deleteAll(responsePoints);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
-     * Удаляет товар по ID
-     * @param id Prod.id
+     * Удаляет точку по ID
+     * @param id PointOfDelivery.id
      * @return 200 (OK). 404 (Not Found), if ID not found or invalid.
      */
     @RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteProdSpecificItem(@PathVariable int id) {
-        logger.info("#deleteProdSpecificItem: " + id);
+    public ResponseEntity<?> deletePointSpecificItem(@PathVariable int id) {
+        logger.info("#deletePointSpecificItem: " + id);
 
-        boolean exists = prodRepo.existsById(id);
+        boolean exists = pointRepo.existsById(id);
 
         if (!exists) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        prodRepo.deleteById(id);
+        pointRepo.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
