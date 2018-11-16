@@ -13,7 +13,8 @@ public class User {
 
     @Id
     @Column(name = "USER_ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @TableGenerator(name = "user_generator", table = "table_user_generator", initialValue = 15, allocationSize = 200)
+    @GeneratedValue(generator = "user_generator")
     private Integer id;
 
     @Column(name = "USER_FULL_NAME", nullable = false, length = 64)

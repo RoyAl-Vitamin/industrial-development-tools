@@ -13,7 +13,8 @@ public class GroupProduct {
 
     @Id
     @Column(name = "GROUP_PRODUCT_ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @TableGenerator(name = "group_product_generator", table = "table_group_product_generator", initialValue = 4, allocationSize = 200)
+    @GeneratedValue(generator = "group_product_generator")
     private Integer id;
 
     @Column(name = "GROUP_PRODUCT_NAME", nullable = false, length = 50)

@@ -11,7 +11,8 @@ public class Product {
 
     @Id
     @Column(name = "PRODUCT_ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @TableGenerator(name = "product_generator", table = "table_product_generator", initialValue = 9, allocationSize = 200)
+    @GeneratedValue(generator = "product_generator")
     private Integer id;
 
     @Column(name = "PRODUCT_NAME", nullable = false, length = 50)
@@ -22,7 +23,7 @@ public class Product {
     private GroupProduct group;
 
     @ManyToOne(targetEntity = OrderPos.class)
-    @JoinColumn(name="ORDER_POSITION_ID", nullable = false)
+    @JoinColumn(name="ORDER_POSITION_ID", nullable = true)
     private OrderPos position;
 
     public Integer getId() {
