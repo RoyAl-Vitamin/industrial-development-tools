@@ -46,11 +46,10 @@ public class PointOfDeliveryApi {
         } catch (NullPointerException npe) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .headers(headers)
+                .headers(null)
                 .body(points);
     }
 
