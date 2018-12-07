@@ -1,5 +1,6 @@
 package vi.al.ro.api;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vi.al.ro.entity.User;
+import vi.al.ro.entity.dto.UserDTO;
 import vi.al.ro.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -33,15 +35,19 @@ public class UserApi {
 
     /**
      * Возвращает всех пользователей
-     * @return {@link User}'s
+     * @return {@link UserDTO}'s
      */
     @RequestMapping(value = "/", produces = "application/json", method = RequestMethod.GET)
     public ResponseEntity<?> getUserEntireCollection() {
         logger.info("#getUserEntireCollection: get all");
 
-        List<User> users = new ArrayList<>();
+        List<UserDTO> users = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
         try {
-            userRepo.findAll().forEach(users::add);
+            userRepo.findAll().forEach(user -> {
+                UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+                users.add(userDTO);
+            });
         } catch (NullPointerException npe) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

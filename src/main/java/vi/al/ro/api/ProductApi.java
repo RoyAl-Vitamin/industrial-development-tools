@@ -1,12 +1,16 @@
 package vi.al.ro.api;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vi.al.ro.entity.GroupProduct;
+import vi.al.ro.entity.OrderPos;
 import vi.al.ro.entity.Product;
+import vi.al.ro.entity.dto.ProductDTO;
 import vi.al.ro.repository.ProductRepository;
 
 import java.util.ArrayList;
@@ -39,10 +43,59 @@ public class ProductApi {
     public ResponseEntity<?> getProdEntireCollection() {
         logger.info("#getProdEntireCollection: get all");
 
-        List<Product> prods = new ArrayList<>();
+        List<ProductDTO> prods = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.createTypeMap(Product.class, ProductDTO.class).addMappings(mapper -> {
+            mapper.map(Product::getId, ProductDTO::setId);
+
+            mapper.map(Product::getName, ProductDTO::setName);
+
+            mapper.map(src -> {
+                    GroupProduct group = new GroupProduct();
+                    if (src == null || src.getGroup() == null) return group;
+                    group.setId(src.getGroup().getId());
+                    group.setName(src.getGroup().getName());
+                    group.setProducts(null);
+                    logger.info("Group == " + group);
+                    return group;
+                },
+                ProductDTO::setGroup
+            );
+
+            mapper.map(src -> {
+                    OrderPos pos = new OrderPos();
+                    if (src == null || src.getPosition() == null) return pos;
+                    pos.setId(src.getPosition().getId());
+                    pos.setDescription(src.getPosition().getDescription());
+                    pos.setDiscount(src.getPosition().getDiscount());
+                    pos.setPrice(src.getPosition().getPrice());
+                    pos.setQuantity(src.getPosition().getQuantity());
+                    pos.setOrder(null);
+                    pos.setProducts(null);
+                    logger.info("OrderPos == " + pos);
+                    return pos;
+                },
+                ProductDTO::setPosition
+            );
+        });
         try {
-            prodRepo.findAll().forEach(prods::add);
+            prodRepo.findAll().forEach(product -> {
+                GroupProduct group = product.getGroup();
+                if (group != null) {
+                    group.setProducts(null);
+                }
+                OrderPos pos = product.getPosition();
+                if (pos != null) {
+                    pos.setOrder(null);
+                    pos.setProducts(null);
+                }
+                ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+                logger.debug("productDTO.toString() == " + productDTO.toString());
+                prods.add(productDTO);
+            });
+            prods.forEach(System.out::println);
         } catch (NullPointerException npe) {
+            logger.error("NullPointerException");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity

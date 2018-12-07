@@ -1,50 +1,39 @@
-package vi.al.ro.entity;
+package vi.al.ro.entity.dto;
 
-import javax.persistence.*;
+import vi.al.ro.entity.Order;
+
 import java.util.Set;
 
 /**
  * Позиция заказа
  */
-@Entity
-@Table(name="ORDER_POSITION", schema = "public")
-public class OrderPos {
+public class OrderPosDTO {
 
-    @Id
-    @Column(name="ORDER_POSITION_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
      * Цена
      */
-    @Column(name="ORDER_POSITION_PRICE", nullable=false)
     private Double price;
 
     /**
      * Скидка
      */
-    @Column(name="ORDER_POSITION_DISCOUNT", nullable=false)
     private Double discount;
 
     /**
      * Количество
      */
-    @Column(name="ORDER_POSITION_QUANTITY", nullable=false)
     private Integer quantity;
 
     /**
      * Описание позиции товара
      */
-    @Column(name="ORDER_POSITION_DESCRIPTION", nullable=false)
     private String description;
 
-    @ManyToOne(targetEntity = Order.class)
-    @JoinColumn(name="ORDER_ID", nullable = false)
     private Order order;
 
-    @OneToMany(mappedBy = "position") // имя поля!
-    private Set<Product> products;
+    private Set<ProductDTO> products;
 
     public Integer getId() {
         return id;
@@ -94,24 +83,11 @@ public class OrderPos {
         this.order = order;
     }
 
-    public Set<Product> getProducts() {
+    public Set<ProductDTO> getProducts() {
         return products;
     }
 
-    public void setProducts(Set<Product> products) {
+    public void setProducts(Set<ProductDTO> products) {
         this.products = products;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderPos{" +
-                "id=" + id +
-                ", price=" + price +
-                ", discount=" + discount +
-                ", quantity=" + quantity +
-                ", description='" + description + '\'' +
-                ", order=" + order +
-                ", products=" + products +
-                '}';
     }
 }
