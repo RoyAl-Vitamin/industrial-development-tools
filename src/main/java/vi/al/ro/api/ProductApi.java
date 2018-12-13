@@ -44,40 +44,26 @@ public class ProductApi {
         logger.info("#getProdEntireCollection: get all");
 
         List<ProductDTO> prods = new ArrayList<>();
+
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.createTypeMap(Product.class, ProductDTO.class).addMappings(mapper -> {
             mapper.map(Product::getId, ProductDTO::setId);
-
             mapper.map(Product::getName, ProductDTO::setName);
-
-            mapper.map(src -> {
-                    GroupProduct group = new GroupProduct();
-                    if (src == null || src.getGroup() == null) return group;
-                    group.setId(src.getGroup().getId());
-                    group.setName(src.getGroup().getName());
-                    group.setProducts(null);
-                    logger.info("Group == " + group);
-                    return group;
-                },
-                ProductDTO::setGroup
-            );
-
-            mapper.map(src -> {
-                    OrderPos pos = new OrderPos();
-                    if (src == null || src.getPosition() == null) return pos;
-                    pos.setId(src.getPosition().getId());
-                    pos.setDescription(src.getPosition().getDescription());
-                    pos.setDiscount(src.getPosition().getDiscount());
-                    pos.setPrice(src.getPosition().getPrice());
-                    pos.setQuantity(src.getPosition().getQuantity());
-                    pos.setOrder(null);
-                    pos.setProducts(null);
-                    logger.info("OrderPos == " + pos);
-                    return pos;
-                },
-                ProductDTO::setPosition
-            );
         });
+
+        modelMapper.createTypeMap(GroupProduct.class, ProductDTO.InnerClassGroupProduct.class).addMappings(mapper -> {
+            mapper.map(GroupProduct::getId, ProductDTO.InnerClassGroupProduct::setId);
+            mapper.map(GroupProduct::getName, ProductDTO.InnerClassGroupProduct::setName);
+        });
+
+        modelMapper.createTypeMap(OrderPos.class, ProductDTO.InnerClassOrderPosDTO.class).addMappings(mapper -> {
+            mapper.map(OrderPos::getId, ProductDTO.InnerClassOrderPosDTO::setId);
+            mapper.map(OrderPos::getPrice, ProductDTO.InnerClassOrderPosDTO::setPrice);
+            mapper.map(OrderPos::getDiscount, ProductDTO.InnerClassOrderPosDTO::setDiscount);
+            mapper.map(OrderPos::getQuantity, ProductDTO.InnerClassOrderPosDTO::setQuantity);
+            mapper.map(OrderPos::getDescription, ProductDTO.InnerClassOrderPosDTO::setDescription);
+        });
+
         try {
             prodRepo.findAll().forEach(product -> {
                 GroupProduct group = product.getGroup();
